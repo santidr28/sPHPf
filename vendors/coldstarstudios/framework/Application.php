@@ -28,6 +28,10 @@ class Application implements interfaces\Application{
     /** @var Aplication path */
     public $path;
     
+    // Application folders
+    public $folders = array();
+    
+    // Application main data transmission through controller-view
     public $data = array();
 
     /**
@@ -36,10 +40,8 @@ class Application implements interfaces\Application{
     function __construct() {
                 
         // Database connection
-        if(class_exists('Connection')){
-            $conn = new Connection();
-            $this->connection = $conn->create();
-        }
+        $conn = new Connection();
+        $this->connection = $conn->create();
         
         // Data Request class
         $this->request = new Request();
@@ -53,7 +55,9 @@ class Application implements interfaces\Application{
         $app_config = $data['app_config'];
         
         $this->production = $app_config['production'];
-        $this->path = $app_config['default_uri'];
+        $this->path = new Path();
+        $this->folders['error'] = $app_config['error'];
+        $this->folders['error_production'] = $app_config['error_production'];
     }
     
     /**
@@ -122,4 +126,3 @@ class Application implements interfaces\Application{
         }
     }
 }
-?>
